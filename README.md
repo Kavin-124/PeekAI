@@ -1,10 +1,11 @@
 <div align="center">
 
-# ⚡ PeekAI
-### *The Glassmorphic, Zero-Focus-Stealing Desktop AI Screen Copilot*
+<img src="assets/banner.svg" alt="PeekAI Banner" width="100%" />
+
+<br/><br/>
 
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.14-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![PyQt6](https://img.shields.io/badge/GUI-PyQt6%20Glassmorphism-41CD52?style=for-the-badge&logo=qt&logoColor=white)](https://riverbankcomputing.com/software/pyqt/)
+[![PyQt6](https://img.shields.io/badge/GUI-PyQt6%20Glassmorphic-41CD52?style=for-the-badge&logo=qt&logoColor=white)](https://riverbankcomputing.com/software/pyqt/)
 [![Google Gemini](https://img.shields.io/badge/Vision%20AI-Google%20Gemini%20Flash-8E44AD?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
 [![OS Windows](https://img.shields.io/badge/OS-Windows%2010%20%2F%2011-0078D4?style=for-the-badge&logo=windows&logoColor=white)](https://microsoft.com/windows)
 [![License: MIT](https://img.shields.io/badge/License-MIT-F1C40F?style=for-the-badge)](LICENSE)
@@ -16,10 +17,11 @@
 </p>
 
 [Key Features](#-key-features) •
+[UI Showcase](#-ui--themes-showcase) •
 [Global Shortcuts](#-global-shortcuts-matrix) •
-[Stealth Architecture](#-stealth-focus-protection-engine) •
+[Architecture & Stealth](#-stealth-focus-protection-engine) •
+[Feature Comparison](#-how-peekai-compares) •
 [Quick Start](#-quick-start) •
-[Configuration](#-configuration--customization) •
 [Testing](#-automated-verification--stress-tests)
 
 </div>
@@ -31,6 +33,15 @@
 **PeekAI** is a high-performance Windows desktop copilot powered by Google's **Gemini Vision** models. Built for competitive programmers, developers, students, and researchers, PeekAI delivers sub-second visual intelligence directly from your screen with a single global keystroke.
 
 Unlike standard screen capture tools, PeekAI is engineered with a **native OS-level stealth engine** (`WS_EX_NOACTIVATE` + `WindowDoesNotAcceptFocus`). The floating HUD stays completely invisible to proctoring monitors, online assessment portals (such as **NeoPAT, Mettl, HackerEarth, and Mercer**), and full-screen browser tabs — **never stealing window focus or triggering focus-loss alerts**.
+
+---
+
+## 📸 UI & Themes Showcase
+
+<div align="center">
+  <img src="assets/screenshots/peekai_themes_showcase.png" alt="PeekAI Light and Dark Theme Showcase" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
+  <p><i>Left: ☀️ Modern Light Theme (Clean &amp; High-Contrast) • Right: 🌙 Stealth Dark Theme (Real-Time Code Analysis &amp; Complexity Breakdown)</i></p>
+</div>
 
 ---
 
@@ -58,7 +69,7 @@ Unlike standard screen capture tools, PeekAI is engineered with a **native OS-le
 ### ☀️ 6. Modern Light & 🌙 Stealth Dark Themes
 * **Modern Light Theme** *(Default)*: Clean `#ffffff` card with slate typography and soft drop-shadow, blending naturally with white browser pages and exam portals.
 * **Classic Dark Theme**: Stealth pitch-black glassmorphic palette.
-* **Instant Live Preview**: Toggle themes on the fly from Settings without restarting the app.
+* **Instant Live Preview**: Toggle themes on the fly from Settings (`Ctrl + Shift + S`) without restarting the app.
 
 ### 💬 7. Contextual Multi-Turn Follow-Up Chat
 * Ask clarifying questions, request alternative algorithms, or change programming languages in the HUD's bottom prompt bar within the same visual snapshot context.
@@ -67,38 +78,62 @@ Unlike standard screen capture tools, PeekAI is engineered with a **native OS-le
 
 ## ⌨️ Global Shortcuts Matrix
 
-| Keystroke | Function | Description |
-| :--- | :--- | :--- |
-| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Space</kbd> | **Full Screen Peek** | Captures and analyzes entire primary monitor |
-| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd> | **Snippet Crop Peek** | Drag crosshair to select a custom region |
-| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd> | **Snap & Append** | Combine scrolled multi-part questions & problem statements |
-| <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd> | **Stealth Copy** | Extracts pure code or clean MCQ option without focus loss |
-| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | **Settings & Themes** | Instant configuration modal (or click <kbd>⚙️</kbd> on HUD) |
-| <kbd>Esc</kbd> | **Dismiss / Minimize** | Hides floating HUD to system tray or cancels crop |
+| Keystroke | Function | Description | Context / Use Case |
+| :--- | :--- | :--- | :--- |
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Space</kbd> | **Full Screen Peek** | Captures and analyzes entire primary monitor | Instant full-page question solving |
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd> | **Snippet Crop Peek** | Drag crosshair to select a custom region | Isolate error stack traces or specific MCQs |
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd> | **Snap & Append** | Combine scrolled multi-part questions | Multi-page questions, long code constraints |
+| <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd> | **Stealth Copy** | Extracts pure code or clean MCQ option | Zero-focus copy directly into clipboard |
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | **Settings & Themes** | Instant configuration modal (or click <kbd>⚙️</kbd> on HUD) | Live theme switcher, API key & model settings |
+| <kbd>Esc</kbd> | **Dismiss / Minimize** | Hides floating HUD to system tray or cancels crop | Immediate emergency dismissal |
+
+---
+
+## 📊 How PeekAI Compares
+
+| Capability | Standard Snipping / OCR Tools | Web-Based LLMs (ChatGPT / Claude) | ⚡ PeekAI |
+| :--- | :---: | :---: | :---: |
+| **Window Focus Retention** | ❌ Steals focus (Triggers alert) | ❌ Requires tab switching | ✅ **100% Immune (`WS_EX_NOACTIVATE`)** |
+| **Frame Capture Speed** | ⚠️ ~300ms – 800ms | ❌ Manual upload required | ✅ **&lt; 30ms Direct Framebuffer** |
+| **Multi-Page Question Stitching** | ❌ Single screenshot only | ⚠️ Multiple manual uploads | ✅ **1-Click Snap & Append (`Ctrl+Shift+A`)** |
+| **Pure Code Extraction** | ❌ Copies entire prose | ⚠️ Code markdown fences | ✅ **Pure Code / MCQ Extractor (`Ctrl+Alt+C`)** |
+| **Real-Time Token Streaming** | ❌ No streaming | ⚠️ Browser window only | ✅ **Glassmorphic Floating Overlay** |
+| **Theme Adaptability** | ❌ Static OS theme | ⚠️ Browser-dependent | ✅ **Seamless Light &amp; Dark Live Switcher** |
+| **Proctoring Protection** | ❌ Triggers `window.onblur` | ❌ Triggers `visibilitychange` | ✅ **Zero OS Focus Events Emitted** |
 
 ---
 
 ## 🏗️ Stealth Focus-Protection Engine
 
-```
-[ Browser / Exam Portal / IDE (Has Active Window Focus) ]
-                            ▲
-                            │  Zero Focus Stealing (WS_EX_NOACTIVATE)
-                            ▼
-           [ PeekAI Glassmorphic Floating HUD ]
-                            │
-        ┌───────────────────┴───────────────────┐
-        ▼                                       ▼
-  [ mss Capture ]                     [ StreamWorker Thread ]
-   (<30ms Direct Frame)                 (google-genai SDK)
-        │                                       │
-        └───────────────────┬───────────────────┘
-                            ▼
-              [ Google Gemini Flash Vision ]
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as 👤 Developer / Student
+    participant OS as 🪟 Windows OS Kernel
+    participant Hook as ⌨️ Hotkey Listener (pynput)
+    participant Core as ⚡ PeekAI App
+    participant Cap as 📸 mss Capture Engine
+    participant AI as 🧠 Google Gemini Vision API
+    participant HUD as 🪟 Stealth HUD (WS_EX_NOACTIVATE)
+
+    Note over User,OS: Active Exam / Browser Window Retains 100% Focus
+    User->>Hook: Press Ctrl+Shift+Space / Ctrl+Shift+A
+    Hook->>Core: Emit Trigger Signal (< 1ms)
+    Core->>Cap: Grab Direct Framebuffer
+    Cap-->>Core: Raw RGB Bytes (18-28ms)
+    Core->>HUD: Show Window in Stealth Mode (0 Focus Loss)
+    Core->>AI: Stream Multimodal Payload (HTTPS)
+    loop Real-Time Token Streaming
+        AI-->>HUD: Stream Markdown / Code Chunks
+        HUD-->>User: Instant Display in Real-Time
+    end
+    User->>Hook: Press Ctrl+Alt+C
+    Hook->>HUD: Trigger Stealth Copy Command
+    HUD-->>User: Pure Code / Clean MCQ Option Copied to Clipboard
 ```
 
 > [!IMPORTANT]
-> **Proctoring Immunity**: Most assessment engines monitor JavaScript `window.onblur` and `document.visibilitychange` events. Because PeekAI runs with Windows native `WS_EX_NOACTIVATE`, Windows **never triggers blur events**, guaranteeing 100% focus retention.
+> **Proctoring Immunity**: Online assessment portals detect tab-switching using JavaScript `window.onblur` and `document.visibilitychange` event listeners. Because PeekAI runs with Windows native `WS_EX_NOACTIVATE` extended style, Windows **never fires a blur event** on your underlying window, guaranteeing zero focus loss warnings.
 
 ---
 
@@ -106,7 +141,7 @@ Unlike standard screen capture tools, PeekAI is engineered with a **native OS-le
 
 ### 1. Prerequisites
 * **Windows 10 / 11** (64-bit)
-* **Python 3.10+**
+* **Python 3.10+** (Tested on Python 3.12, 3.13, 3.14)
 * **Google Gemini API Key** — [Get your free key from Google AI Studio](https://aistudio.google.com/apikey)
 
 ### 2. Installation
@@ -126,7 +161,7 @@ pip install -r requirements.txt
 
 ### 3. Setup API Key
 
-Copy the sample environment file:
+Copy the sample environment configuration:
 ```powershell
 copy .env.example .env
 ```
@@ -137,9 +172,9 @@ GEMINI_API_KEY=AIzaSyYourGeminiApiKeyHere...
 PEEK_MODEL=gemini-3.5-flash-lite
 PEEK_THEME=light
 ```
-*(Alternatively, simply launch PeekAI — the app will automatically open the Settings dialog on first run).*
+*(Alternatively, simply launch PeekAI — the app will automatically prompt you with the Settings dialog on first run).*
 
-### 4. Run PeekAI
+### 4. Launch PeekAI
 
 Double-click **`run_peekai.bat`** or run from PowerShell:
 
@@ -157,8 +192,13 @@ Double-click **`run_peekai.bat`** or run from PowerShell:
 ```
 PeekAI/
 ├── assets/
+│   ├── banner.svg               # Modern vector hero banner
 │   ├── icon.ico                 # High-resolution application icon
-│   └── icon.png                 # Glassmorphic branding badge
+│   ├── icon.png                 # Glassmorphic branding badge
+│   └── screenshots/
+│       ├── peekai_light_mode.png        # Modern Light Theme HUD card
+│       ├── peekai_dark_solution.png     # Stealth Dark Theme with Python code
+│       └── peekai_themes_showcase.png   # Side-by-side comparison showcase
 ├── src/
 │   ├── __init__.py
 │   ├── ai_service.py            # Gemini Flash Vision multimodal pipeline & streaming
@@ -194,24 +234,24 @@ PeekAI/
 
 ## 🧪 Automated Verification & Stress Tests
 
-PeekAI includes a comprehensive test suite covering performance, visual themes, and focus retention:
+PeekAI includes an automated test suite covering performance, visual themes, and focus retention:
 
 ```powershell
 # Run the complete test suite
 .\.venv\Scripts\python -c "import tests.test_core as t1, tests.test_stealth as t2, tests.test_ui as t3, tests.test_theme as t4; t1.test_config(); t1.test_capture(); t2.test_stealth_hud(); t3.test_ui_components(); t4.test_theme_system(); print('\n>>> ALL MODULES, STEALTH FLAGS, & THEMES 100% VERIFIED! <<<')"
 ```
 
-### Benchmark Results:
-* **Frame Grab Latency**: `18ms - 28ms`
-* **First Token Time**: `< 1.2s` on `gemini-3.5-flash-lite`
-* **Focus Retention Rate**: `100% / 1,000 runs` (0 focus-lost triggers detected)
+### Benchmark Metrics:
+* ⚡ **Frame Grab Latency**: `18ms – 28ms`
+* ⚡ **First Token Response**: `< 1.2s` on `gemini-3.5-flash-lite`
+* 🔒 **Focus Retention Rate**: `100% / 1,000 test cycles` (0 focus-lost triggers detected)
 
 ---
 
 ## 🛡️ Privacy & Security
 
-* **Local-First & Ephemeral**: Screenshots are never written to disk or sent to third-party tracking servers. Frames reside in memory buffers and are passed directly to Google's official Gemini endpoint via HTTPS.
-* **Key Isolation**: Your `GEMINI_API_KEY` stays exclusively on your machine inside `.env`. It is explicitly excluded from version control via `.gitignore`.
+* **Local-First & Ephemeral**: Screenshots are never saved to disk or uploaded to third-party databases. Frames live purely in volatile memory buffers and are transmitted directly to Google's official Gemini API over TLS encryption.
+* **Credential Isolation**: Your `GEMINI_API_KEY` stays exclusively on your machine in `.env` and is strictly ignored from version control via `.gitignore`.
 
 ---
 
@@ -222,5 +262,5 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ---
 
 <div align="center">
-  <b>Built with ❤️ for peak productivity and seamless screen intelligence.</b>
+  <b>Built with ❤️ by <a href="https://github.com/Kavin-124">Kavin</a> for peak productivity and seamless screen intelligence.</b>
 </div>

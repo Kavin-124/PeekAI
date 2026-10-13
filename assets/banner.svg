@@ -1,0 +1,105 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definitions & Gradients -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1200" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="45%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="600" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#c7d2fe" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.85" />
+    </linearGradient>
+    <radialGradient id="glowTopRight" cx="950" cy="80" r="350" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#4f46e5" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glowBottomLeft" cx="200" cy="380" r="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.22" />
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334155" stroke-width="0.75" stroke-opacity="0.35" />
+    </pattern>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- Background Layer -->
+  <rect width="1200" height="420" rx="16" fill="url(#bgGrad)" />
+  <rect width="1200" height="420" rx="16" fill="url(#gridPattern)" />
+  <rect width="1200" height="420" rx="16" fill="url(#glowTopRight)" />
+  <rect width="1200" height="420" rx="16" fill="url(#glowBottomLeft)" />
+  <rect width="1200" height="420" rx="16" fill="none" stroke="#334155" stroke-width="1.5" stroke-opacity="0.6" />
+
+  <!-- Top Pill Badge -->
+  <g transform="translate(600, 52)">
+    <rect x="-170" y="-16" width="340" height="32" rx="16" fill="#1e1e2e" fill-opacity="0.8" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.7" />
+    <circle cx="-146" cy="0" r="4.5" fill="#10b981" />
+    <text x="-132" y="4" fill="#cbd5e1" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" letter-spacing="1.2">ZERO FOCUS LOSS • STEALTH COPILOT</text>
+  </g>
+
+  <!-- Hero Lightning Icon & Title -->
+  <g transform="translate(600, 140)">
+    <!-- Lightning Bolt Icon -->
+    <path d="M -210 -40 L -175 -40 L -190 -8 L -165 -8 L -205 38 L -195 4 L -220 4 Z" fill="url(#accentGrad)" />
+    <!-- Title Text -->
+    <text x="-140" y="24" fill="url(#titleGrad)" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="68" font-weight="800" letter-spacing="-1.5">PeekAI</text>
+  </g>
+
+  <!-- Subtitle -->
+  <text x="600" y="210" text-anchor="middle" fill="#94a3b8" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="18" font-weight="400" letter-spacing="0.2">
+    Ultra-Fast Multimodal Screen Intelligence for Windows • Solves Code &amp; MCQs Without Window Focus Alerts
+  </text>
+
+  <!-- Bottom 4 Feature Cards -->
+  <!-- Card 1: <30ms Capture -->
+  <g transform="translate(80, 265)" filter="url(#cardShadow)">
+    <rect width="240" height="96" rx="12" fill="url(#cardGrad)" stroke="#3b4261" stroke-width="1" />
+    <circle cx="36" cy="36" r="16" fill="#312e81" fill-opacity="0.6" />
+    <text x="36" y="42" text-anchor="middle" fill="#818cf8" font-size="16">⚡</text>
+    <text x="66" y="34" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="14.5" font-weight="700">&lt; 30ms Capture</text>
+    <text x="66" y="52" fill="#38bdf8" font-family="monospace" font-size="11.5" font-weight="600">Ctrl+Shift+Space</text>
+    <text x="24" y="78" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="11">Low-level mss memory frame grab</text>
+  </g>
+
+  <!-- Card 2: Zero Focus Loss -->
+  <g transform="translate(340, 265)" filter="url(#cardShadow)">
+    <rect width="240" height="96" rx="12" fill="url(#cardGrad)" stroke="#3b4261" stroke-width="1" />
+    <circle cx="36" cy="36" r="16" fill="#064e3b" fill-opacity="0.6" />
+    <text x="36" y="42" text-anchor="middle" fill="#34d399" font-size="16">🔒</text>
+    <text x="66" y="34" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="14.5" font-weight="700">Zero Focus Loss</text>
+    <text x="66" y="52" fill="#34d399" font-family="monospace" font-size="11.5" font-weight="600">WS_EX_NOACTIVATE</text>
+    <text x="24" y="78" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="11">Immune to exam tab-switch alerts</text>
+  </g>
+
+  <!-- Card 3: Multi-Slice Append -->
+  <g transform="translate(600, 265)" filter="url(#cardShadow)">
+    <rect width="240" height="96" rx="12" fill="url(#cardGrad)" stroke="#3b4261" stroke-width="1" />
+    <circle cx="36" cy="36" r="16" fill="#581c87" fill-opacity="0.6" />
+    <text x="36" y="42" text-anchor="middle" fill="#c084fc" font-size="16">📸</text>
+    <text x="66" y="34" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="14.5" font-weight="700">Snap &amp; Append</text>
+    <text x="66" y="52" fill="#c084fc" font-family="monospace" font-size="11.5" font-weight="600">Ctrl+Shift+A</text>
+    <text x="24" y="78" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="11">Stitches scrolled question pages</text>
+  </g>
+
+  <!-- Card 4: Stealth Copy -->
+  <g transform="translate(860, 265)" filter="url(#cardShadow)">
+    <rect width="240" height="96" rx="12" fill="url(#cardGrad)" stroke="#3b4261" stroke-width="1" />
+    <circle cx="36" cy="36" r="16" fill="#78350f" fill-opacity="0.6" />
+    <text x="36" y="42" text-anchor="middle" fill="#fbbf24" font-size="16">📋</text>
+    <text x="66" y="34" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="14.5" font-weight="700">Stealth Copy</text>
+    <text x="66" y="52" fill="#fbbf24" font-family="monospace" font-size="11.5" font-weight="600">Ctrl+Alt+C</text>
+    <text x="24" y="78" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="11">Extracts clean code or MCQ choice</text>
+  </g>
+</svg>
