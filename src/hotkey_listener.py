@@ -211,18 +211,86 @@ class HotkeyListener(QObject):
         if "alt" in self._current_keys and not self._is_alt_down():
             self._current_keys.discard("alt")
 
+    def _win32_event_filter(self, msg, data):
+        """
+        Low-level Windows keyboard filter.
+        When PeekAI hotkeys are detected, triggers the action and SUPPRESSES the keystroke
+        from reaching the active browser / exam window (returns False).
+        This prevents browser shortcuts (e.g. Chrome Ctrl+Shift+A Tab Search, Edge Ctrl+Shift+S)
+        and exam anti-cheating scripts from detecting hotkey activity!
+        """
+        VK_SPACE = 0x20
+        VK_X = 0x58
+        VK_A = 0x41
+        VK_C = 0x43
+        VK_S = 0x53
+
+        vk = getattr(data, "vkCode", None)
+        if vk not in (VK_SPACE, VK_X, VK_A, VK_C, VK_S):
+            return True
+
+        ctrl = self._is_ctrl_down()
+        shift = self._is_shift_down()
+        alt = self._is_alt_down()
+
+        if not ctrl:
+            return True
+
+        WM_KEYDOWN = 0x0100
+        WM_KEYUP = 0x0101
+        WM_SYSKEYDOWN = 0x0104
+        WM_SYSKEYUP = 0x0105
+
+        is_down = (msg in (WM_KEYDOWN, WM_SYSKEYDOWN))
+
+        matched = False
+        signal_to_emit = None
+
+        if (ctrl and alt and vk == VK_C) or (ctrl and shift and vk == VK_C):
+            matched = True
+            signal_to_emit = self.copy_peek_triggered
+        elif ctrl and shift and vk == VK_A:
+            matched = True
+            signal_to_emit = self.append_peek_triggered
+        elif ctrl and shift and vk == VK_X:
+            matched = True
+            signal_to_emit = self.snippet_peek_triggered
+        elif ctrl and shift and vk == VK_SPACE:
+            matched = True
+            signal_to_emit = self.full_peek_triggered
+        elif ctrl and shift and vk == VK_S:
+            matched = True
+            signal_to_emit = self.settings_triggered
+
+        if matched:
+            if is_down:
+                now = time.time()
+                if now - self._last_trigger_time >= self._debounce_seconds:
+                    self._last_trigger_time = now
+                    logger.info("Win32 Filter Hotkey Triggered & Suppressed: vk=0x%02X", vk)
+                    if signal_to_emit:
+                        signal_to_emit.emit()
+            # Suppress key from reaching Chrome / Edge / exam portal!
+            return False
+
+        return True
+
     def start(self):
-        """Starts the global key listener."""
+        """Starts the global key listener with Windows native key suppression."""
         self.stop()
         self._current_keys.clear()
         try:
-            self._listener = keyboard.Listener(
-                on_press=self._on_press,
-                on_release=self._on_release
-            )
+            kwargs = {
+                "on_press": self._on_press,
+                "on_release": self._on_release,
+            }
+            if sys.platform == "win32":
+                kwargs["win32_event_filter"] = self._win32_event_filter
+
+            self._listener = keyboard.Listener(**kwargs)
             self._listener.daemon = True
             self._listener.start()
-            logger.info("Global hotkey listener started successfully.")
+            logger.info("Global hotkey listener started successfully (Win32 key suppression active).")
         except Exception as e:
             logger.error("Failed to start hotkey listener: %s", e)
 

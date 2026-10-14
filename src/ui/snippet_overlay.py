@@ -3,6 +3,7 @@ from typing import Optional
 from PyQt6.QtCore import Qt, QRect, QPoint, pyqtSignal
 from PyQt6.QtGui import QPainter, QColor, QPen, QBrush, QCursor, QFont
 from PyQt6.QtWidgets import QWidget, QApplication
+from src.stealth import apply_stealth_flags, stealth_show, stealth_hide
 
 
 class SnippetOverlay(QWidget):
@@ -15,13 +16,7 @@ class SnippetOverlay(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.setWindowFlags(
-            Qt.WindowType.FramelessWindowHint
-            | Qt.WindowType.WindowStaysOnTopHint
-            | Qt.WindowType.Tool
-        )
-        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
-        self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, True)
+        apply_stealth_flags(self)
         self.setCursor(QCursor(Qt.CursorShape.CrossCursor))
 
         self.start_pos: Optional[QPoint] = None
@@ -30,7 +25,7 @@ class SnippetOverlay(QWidget):
         self.hint_text = self.DEFAULT_HINT
 
     def start_selection(self, hint: Optional[str] = None):
-        """Displays overlay over the primary screen geometry."""
+        """Displays overlay over the primary screen geometry in pure stealth mode."""
         screen = QApplication.primaryScreen()
         if screen:
             self.setGeometry(screen.geometry())
@@ -38,8 +33,7 @@ class SnippetOverlay(QWidget):
         self.end_pos = None
         self.is_selecting = False
         self.hint_text = hint or self.DEFAULT_HINT
-        self.showFullScreen()
-        self.raise_()
+        stealth_show(self)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
@@ -52,7 +46,7 @@ class SnippetOverlay(QWidget):
 
     def mouseDoubleClickEvent(self, event):
         """Double click to capture full screen instantly."""
-        self.hide()
+        stealth_hide(self)
         self.area_selected.emit(None)
 
     def mouseMoveEvent(self, event):
@@ -64,7 +58,7 @@ class SnippetOverlay(QWidget):
         if event.button() == Qt.MouseButton.LeftButton and self.is_selecting:
             self.is_selecting = False
             self.end_pos = event.pos()
-            self.hide()
+            stealth_hide(self)
 
             if self.start_pos and self.end_pos:
                 rect = QRect(self.start_pos, self.end_pos).normalized()
@@ -87,12 +81,12 @@ class SnippetOverlay(QWidget):
             self.close_and_cancel()
         elif key in (Qt.Key.Key_Space, Qt.Key.Key_Return, Qt.Key.Key_Enter):
             # Capture full screen
-            self.hide()
+            stealth_hide(self)
             self.area_selected.emit(None)
 
     def close_and_cancel(self):
         self.is_selecting = False
-        self.hide()
+        stealth_hide(self)
         self.cancelled.emit()
 
     def paintEvent(self, event):

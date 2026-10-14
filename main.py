@@ -17,6 +17,7 @@ from src.ui.snippet_overlay import SnippetOverlay
 from src.ui.append_overlay import AppendOverlay
 from src.ui.tray_icon import TrayIcon
 from src.ui.settings_dialog import SettingsDialog
+from src.stealth import stealth_show, stealth_hide
 
 
 def _global_exception_handler(ex_type, ex_val, ex_tb):
@@ -113,16 +114,7 @@ class PeekAIApp:
 
     def show_hud_stealth(self):
         """Restores HUD in pure stealth mode without stealing focus from browser/exam window."""
-        self.hud.showNormal()
-        self.hud.show()
-        self.hud.raise_()
-        if sys.platform == "win32":
-            try:
-                import ctypes
-                SW_SHOWNOACTIVATE = 4
-                ctypes.windll.user32.ShowWindow(int(self.hud.winId()), SW_SHOWNOACTIVATE)
-            except Exception:
-                pass
+        stealth_show(self.hud)
 
     def show_and_activate(self):
         """Alias for backward compatibility - safely redirects to stealth mode."""
@@ -150,20 +142,17 @@ class PeekAIApp:
         self.hotkey_listener.start()
 
     def trigger_full_peek(self):
-        """Captures entire screen and sends to Gemini AI."""
+        """Captures entire screen and sends to Gemini AI in pure stealth mode."""
         if not Config.is_configured():
             self._show_settings()
             return
 
-        # Hide HUD and overlays temporarily so they don't photograph themselves
-        if self.hud.isVisible():
-            self.hud.hide()
+        # Hide append overlay if active
         if self.append_overlay.isVisible():
-            self.append_overlay.hide()
-        self.qapp.processEvents()
+            stealth_hide(self.append_overlay)
 
-        # Delay to allow window hide to flush to OS display compositor
-        QTimer.singleShot(120, self._perform_full_capture)
+        # Full capture runs cleanly (HUD is hardware-excluded from capture via WDA_EXCLUDEFROMCAPTURE)
+        self._perform_full_capture()
 
     def _perform_full_capture(self):
         try:
@@ -181,25 +170,20 @@ class PeekAIApp:
             self._show_settings()
             return
 
-        self.hud.hide()
-        self.qapp.processEvents()
+        stealth_hide(self.hud)
         self.append_overlay.show_guide()
 
     def trigger_append_peek(self):
         """
-        Triggered when user presses Ctrl+Shift+A (or a) directly from keyboard.
+        Triggered when user presses Ctrl+Shift+A directly from keyboard.
         Opens the snippet crop overlay in append mode so the user can drag & select the scrolled portion!
         """
         if not Config.is_configured():
             self._show_settings()
             return
 
-        # Hide any active windows before opening selector
-        if self.hud.isVisible():
-            self.hud.hide()
         if self.append_overlay.isVisible():
-            self.append_overlay.hide()
-        self.qapp.processEvents()
+            stealth_hide(self.append_overlay)
 
         self._pending_append_snippet = True
         self.snippet_overlay.start_selection(
@@ -224,20 +208,17 @@ class PeekAIApp:
         """User cancelled guided append mode."""
         self._pending_append_snippet = False
         if self.hud.captured_images:
-            self.hud.show()
+            stealth_show(self.hud)
 
     def trigger_snippet_peek(self):
-        """Opens interactive snippet selector to capture a specific screen region."""
+        """Opens interactive snippet selector to capture a specific screen region in pure stealth."""
         if not Config.is_configured():
             self._show_settings()
             return
 
         self._pending_append_snippet = False
-        if self.hud.isVisible():
-            self.hud.hide()
         if self.append_overlay.isVisible():
-            self.append_overlay.hide()
-        self.qapp.processEvents()
+            stealth_hide(self.append_overlay)
 
         self.snippet_overlay.start_selection(
             hint="✂️ Drag to capture region  •  Space: Full Screen  •  Esc: Cancel"
@@ -260,7 +241,7 @@ class PeekAIApp:
         self._pending_append_snippet = False
         # If user was appending and cancelled, restore the existing HUD results
         if is_append and self.hud.captured_images:
-            self.hud.show()
+            stealth_show(self.hud)
 
     def quit(self):
         self.hotkey_listener.stop()

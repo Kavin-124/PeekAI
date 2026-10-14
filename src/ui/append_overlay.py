@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import (
     QGraphicsDropShadowEffect, QApplication
 )
 from src.config import Config
+from src.stealth import apply_stealth_flags, stealth_show, stealth_hide
 
 
 class AppendOverlay(QWidget):
@@ -27,26 +28,8 @@ class AppendOverlay(QWidget):
         self._apply_styles()
 
     def _init_window(self):
-        self.setWindowFlags(
-            Qt.WindowType.FramelessWindowHint
-            | Qt.WindowType.WindowStaysOnTopHint
-            | Qt.WindowType.Tool
-            | Qt.WindowType.WindowDoesNotAcceptFocus
-        )
-        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
-        self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, True)
+        apply_stealth_flags(self)
         self.resize(580, 68)
-
-        if sys.platform == "win32":
-            try:
-                import ctypes
-                hwnd = int(self.winId())
-                GWL_EXSTYLE = -20
-                WS_EX_NOACTIVATE = 0x08000000
-                style = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
-                ctypes.windll.user32.SetWindowLongW(hwnd, GWL_EXSTYLE, style | WS_EX_NOACTIVATE)
-            except Exception:
-                pass
 
     def _init_ui(self):
         layout = QHBoxLayout(self)
@@ -214,33 +197,25 @@ class AppendOverlay(QWidget):
             """)
 
     def show_guide(self):
-        """Centers overlay at the top of the active primary screen and shows it."""
+        """Centers overlay at the top of the active primary screen and shows it in stealth mode."""
         screen = QApplication.primaryScreen()
         if screen:
             screen_geo = screen.availableGeometry()
             x = screen_geo.x() + (screen_geo.width() - self.width()) // 2
             y = screen_geo.y() + 20
             self.move(x, y)
-        self.show()
-        self.raise_()
-        if sys.platform == "win32":
-            try:
-                import ctypes
-                SW_SHOWNOACTIVATE = 4
-                ctypes.windll.user32.ShowWindow(int(self.winId()), SW_SHOWNOACTIVATE)
-            except Exception:
-                pass
+        stealth_show(self)
 
     def _on_snap_clicked(self):
-        self.hide()
+        stealth_hide(self)
         self.snap_full_requested.emit()
 
     def _on_crop_clicked(self):
-        self.hide()
+        stealth_hide(self)
         self.snap_snippet_requested.emit()
 
     def _on_cancel_clicked(self):
-        self.hide()
+        stealth_hide(self)
         self.cancelled.emit()
 
     def keyPressEvent(self, event):

@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import (
 )
 from src.ai_service import AIService
 from src.config import Config
+from src.stealth import apply_stealth_flags, stealth_show, stealth_hide
 
 
 def extract_clean_answer(raw: str) -> str:
@@ -98,22 +99,7 @@ class StreamWorker(QThread):
             self.error_occurred.emit(str(e))
 
 
-def apply_stealth_noactivate(widget: QWidget):
-    """
-    Applies Windows OS-level WS_EX_NOACTIVATE extended style.
-    Ensures that this window NEVER steals focus or foreground status
-    from the underlying browser/exam application when shown or clicked.
-    """
-    if sys.platform == "win32":
-        try:
-            import ctypes
-            hwnd = int(widget.winId())
-            GWL_EXSTYLE = -20
-            WS_EX_NOACTIVATE = 0x08000000
-            style = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
-            ctypes.windll.user32.SetWindowLongW(hwnd, GWL_EXSTYLE, style | WS_EX_NOACTIVATE)
-        except Exception:
-            pass
+
 
 
 class FloatingHUD(QWidget):
@@ -210,22 +196,13 @@ class FloatingHUD(QWidget):
         return self.DARK_READY_HTML if Config.get_theme() == "dark" else self.LIGHT_READY_HTML
 
     def _init_window_flags(self):
-        # Stealth Mode: WindowDoesNotAcceptFocus prevents Windows from stripping focus from browser
-        self.setWindowFlags(
-            Qt.WindowType.FramelessWindowHint
-            | Qt.WindowType.WindowStaysOnTopHint
-            | Qt.WindowType.WindowDoesNotAcceptFocus
-        )
-        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
-        self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, True)
+        apply_stealth_flags(self)
         self.resize(520, 640)
 
         # Set taskbar / window icon
         icon_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "assets", "icon.png")
         if os.path.exists(icon_path):
             self.setWindowIcon(QIcon(icon_path))
-
-        apply_stealth_noactivate(self)
 
         # Center in top-right area of screen
         screen = QApplication.primaryScreen()
@@ -237,14 +214,7 @@ class FloatingHUD(QWidget):
 
     def showEvent(self, event):
         super().showEvent(event)
-        apply_stealth_noactivate(self)
-        if sys.platform == "win32":
-            try:
-                import ctypes
-                SW_SHOWNOACTIVATE = 4
-                ctypes.windll.user32.ShowWindow(int(self.winId()), SW_SHOWNOACTIVATE)
-            except Exception:
-                pass
+        apply_stealth_flags(self)
 
 
     def _init_ui(self):
@@ -779,15 +749,7 @@ class FloatingHUD(QWidget):
                 self._set_thumbnail(pil_img)
             self.preview_info.setText("Captured screen analyzed")
 
-        self.show()
-        self.raise_()
-        if sys.platform == "win32":
-            try:
-                import ctypes
-                SW_SHOWNOACTIVATE = 4
-                ctypes.windll.user32.ShowWindow(int(self.winId()), SW_SHOWNOACTIVATE)
-            except Exception:
-                pass
+        stealth_show(self)
 
         # Start streaming worker with list of all captured screenshots
         self._start_worker(image_bytes=self.captured_images)
